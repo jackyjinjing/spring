@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+ http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+    <bean id="helloWorld" class="aopstudy.HelloWorld"/>
+
+    <bean id="helloWorldLogService" class="aopstudy.HelloWorldLogService"/>
+
+    <bean id="addition" class="aopstudy.Addition"/>
+
+    <bean id="additionLogService" class="aopstudy.Addition"/>
+
+    <aop:config proxy-target-class="true">
+        <aop:aspect ref="helloWorldLogService">
+            <aop:pointcut id="logInterceptor" expression="execution(* *.say(..))"/>
+            <aop:before method="beforeSay" pointcut-ref="logInterceptor"/>
+            <aop:after method="afterSay" pointcut-ref="logInterceptor"/>
+        </aop:aspect>
+        <aop:aspect ref="additionLogService">
+            <aop:pointcut id="additionLogInterceptor" expression="execution(* *.add(..))"/>
+            <aop:before method="beforeAdd" pointcut-ref="additionLogInterceptor"/>
+        </aop:aspect>
+    </aop:config>
+
+
+
+</beans>
